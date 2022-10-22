@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>old realmicrosoft yiffOS installers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/microsoft.css"/>
+</head>
+<body>
+<a href="/yiffos/index.html">back</a>
+<h1>so you wanna install yiffOS?</h1>
+<h6>i am not responsible for any damages in any way that may be caused by the use or misuse of this guide.</h6>
+<hr>
+<h2>WARNING! this guide assumes that you have at least some knowledge about linux and the linux command line,
+    and you will definitely need to be comfortable not using a gui for quite some time</h2>
+<hr>
+<h3>table of contents</h3>
+<table class="yiffos-table">
+    <tr>
+        <td><a href="#part1">part 1 - base installation</a></td>
+    </tr>
+</table>
+<hr>
+<h1 id="part1">part 1 - base installation</h1>
+<p>first things first, you'll want to grab a copy of the latest yiffOS install image from
+    everyone's favorite <a href="https://realmicrosoft.com">realmicrosoft.com</a>! this guide will
+    be using v2.0.0 which can be downloaded <a href="/v2_yiffOS-installer.img">here</a>.
+    <br>
+<table class="yiffos-table">
+    <tr>
+        <td><a href="#using-vm">using a vm</a></td>
+    </tr>
+    <tr>
+        <td><a href="#using-pc">using a physical pc</a></td>
+</table>
+<hr>
+<div id="using-vm">
+    <h3>using a virtual machine</h3>
+    <p>if you're using a virtual machine for this install, you will need to mount the image somehow.
+        qemu usually works fine with the install image, although you may need to disable secure boot.
+        vmware, however, doesn't seem to like the image, and thus you may need to convert it to a
+        vmware format image by running something like<br>
+        <code>qemu-img convert -f raw -O vmdk v2_yiffOS-installer.img v2_yiffOS-installer.vmdk</code>
+        <br>
+        you may also want to resize the image to a larger size than 3GiB to fix a later issue,
+        the process for doing so will not be covered here however as it varies between formats and
+        vm programs</p>
+</div>
+<div id="using-pc">
+    <h3>using a physical computer</h3>
+    <p>if you're using a physical computer, you'll need to actually burn the image to a usb flash
+        drive and boot off of that. the easiest way to do this is to first check which device is the
+        flash drive by running <code>lsblk</code> and then writing the image using<br>
+        <code>dd if=v2_yiffOS-installer.img of=/dev/sdX status=progress</code>
+</div>
+<hr>
+</p>
+<p>
+    once booted, you should see a screen that looks something like this:<br>
+<div class="code-screenshot">
+    yiffOS 0.2.0-dev<br>
+    Kernel 5.16.11-yiffOS on an x86_64 (-)<br>
+    <br>
+    welcome to Real Microsoft (c) 2004 yiff os installer v2.0.0<br>
+    this image was published on 2022-04-11<br>
+    user = root<br>
+    pass = root<br>
+    <br>
+    very secure (:<br>
+    <br>
+    you should be automatically logged in, follow these steps to install yiffOS<br>
+    ...............................................................................<br>
+    make sure that you have a network connection; use ping and/or nmtui<br>
+    <br>
+    use cfdisk to set up a basic efi layout (this installer was not designed for<br>
+    bios)<br>
+    <br>
+    use mkfs.fat -F32 on the EFI and mkfs for a filesystem of your choice on the<br>
+    root<br>
+    <br>
+    run ./install-yiffos &lt;/dev/sdXX (EFI partition)&gt; &lt;/dev/sdXX (ROOT partition)&gt;<br>
+    and pray to god that it doesn't error out on you (:<br>
+    ...............................................................................<br>
+    <br>
+    yiffOS login: root (automatic login)<br>
+    <br>
+    -bash-5.1# _<br>
+</div>
+you may be tempted to follow the onscreen instructions, BUT THERE ARE SOME IMPORTANT STEPS YOU
+SHOULD TAKE FIRST!!!!<br>
+first of all, you'll need to download an updated install script as the one included with this
+image is outdated and lacks some fixes that will be useful later.
+you can download the version of the script that we will be using from
+<a href="/install-yiffos.sh">https://realmicrosoft.com/install-yiffos.sh</a> by running<br>
+<code>curl -O https://realmicrosoft.com/install-yiffos.sh</code><br>
+or you can download the latest version from github by running<br>
+<code>curl -O hhttps://raw.githubusercontent.com/realmicrosoft/yiffOS-install-script/main/install-yiffos.sh</code><br>
+(REMINDER THAT YOU ARE RUNNING THESE COMMANDS ON THE BOOTED YIFFOS INSTALLER IMAGE)<br>
+<hr>
+<h2>help! i have received an error stating i am out of disk space!</h2>
+sooner or later, you'll get an error stating that you are out of disk space. this is
+due to the small size of the yiffOS installer image. you'll need to resize the booted image
+to the size of its enclosing media (either the usb flash drive or the actual .img file that your
+vm is using). luckily, this is pretty simple and doesn't seem to cause issues from what i've seen.<br>
+all you need to do is run <code>fdisk -l</code> and find the device that you want to resize, then
+run <code>cfdisk /dev/sdX</code> to resize the partition, and then run
+<code>resize2fs /dev/sdX</code> to resize the filesystem.<br>
+after this, you'll just need to reboot and you should be good to go!<br>
+<br>
+<hr>
+<br>
+now that you've set up the new install script, you can go through the normal install process.<br>
+first, you need to run <code>cfdisk</code> on the disk you want to install on. once here, you'll
+need to create two partitions. one for the EFI partition and one for the root partition. you can
+also optionally create a swap partition if you want to use it. the EFI partition should be 512MB
+in size, and the root partition should be at least 3-4GB in size. the swap partition should be
+equal to the size of your RAM.<br>
+once done, you should have something like this:<br>
+<div class="code-screenshot centre">
+    Disk: /dev/sda<br>
+    Size: 5.0 GB, whatever bytes, whatever sectors<br>
+    Label: gpt, identifier: whatever-whatever-whatever<br>
+    <br>
+    <table>
+        <tr>
+            <td>Device</td>
+            <td>Start</td>
+            <td>End</td>
+            <td>Sectors</td>
+            <td>Size</td>
+            <td>Type</td>
+        </tr>
+        <tr>
+            <td>/dev/sda1</td>
+            <td>2048</td>
+            <td>XXXXXXX</td>
+            <td>XXXXXXX</td>
+            <td>512M</td>
+            <td>EFI System</td>
+        </tr>
+        <tr>
+            <td>/dev/sda2</td>
+            <td>XXXXXXX</td>
+            <td>XXXXXXX</td>
+            <td>XXXXXXX</td>
+            <td>5G</td>
+            <td>Linux filesystem</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <p class="boxed left">
+        Partition UUID: whatever-whatever-whatever<br>
+        Partition type: whatever<br>
+        Filesystem UUID: whatever-whatever<br>
+        Filesystem: vfat<br>
+        Mount point: /boot/efi<br>
+    </p>
+    <table>
+        <tr>
+            <td>[ Delete ]</td>
+            <td>[ Resize ]</td>
+            <td>[ Quit ]</td>
+            <td>[ Type ]</td>
+            <td>[ Help ]</td>
+            <td>[ Write ]</td>
+            <td>[ Dump ]</td>
+        </tr>
+    </table>
+</div>
+just hit the <code>Write</code> button and you should be good to go!<br>
+after closing cfdisk, you'll need to run <code>mkfs.fat -F32 /dev/sdXX</code> on the EFI
+partition in order to format it correctly. afterwards, you'll need to make a choice of which
+filesystem you want to use on the root partition. we're going to be using btrfs as it is already
+installed via the install script, however if you want to use another filesystem, you'll need
+to install the appropriate package and then run <code>mkfs.whatever /dev/sdXX</code> on the root.
+<br>ONE OTHER IMPORTANT STEP IF YOU'RE USING AN ALTERNATE FILESYSTEM:<br>
+remember to also install the appropriate package for that filesystem <b>after</b> installing yiffOS!
+after running the installer, you'll be inside a chroot, so you'll need to run <code>exit</code>
+and then proceed to run<br>
+<code>INSTALL_ROOT=/mnt/root bulge i &lt;appropriate package&gt;</code>
+<hr>
+anyways, assuming you're using btrfs, you can now run <code>mkfs.btrfs /dev/sdXX</code> to format
+the root partition. if you get an error about another btrfs filesystem already existing, you can
+just run <code>mkfs.btrfs -f /dev/sdXX</code> to overwrite it.<br>
+<h3>now the fun part!</h3>
+now that you've created and formatted your partitions, pretty much all you have left to do is
+run<br>
+<code>./install-yiffos.sh /dev/&lt;EFI PARTITION&gt; /dev/&lt;ROOT PARTITION&gt;</code><br>
+and the installer will do almost all of the hard work for you!<br>
+after you've run the installer, just wait a bit (or maybe a bit longer, depending on your
+cpu and internet speed) and you'll be prompted to set a root password. make sure it's something
+that you can remember for at least the next 10 minutes or so because you'll need it to log in
+to your new yiffOS install. IMPORTANT!!! DO NOT REBOOT YET!!! we still have some work to do!<br>
+(IF YOU PULLED FROM GITHUB, THIS IS FIXED!!!!)<br>
+the install script has an issue in it that will cause dbus to not work, so we'll need to fix this.
+luckily, it's a pretty simple fix, just run<br>
+<div class="code-screenshot centre">
+    rm /var/run/run<br>
+    rm -R /var/run<br>
+    ln -s /run /var/run<br>
+</div>
+(THE POSITIONING OF THE PARENTHESES IS VERY IMPORTANT!)<br>
+you'll need to do one other thing however, which is to reinstall dbus as we kinda just deleted
+it. this isn't too hard either though, you'll just need to exit the chroot (which hopefully you
+were still inside for the previous commands) and then run<br>
+<code>INSTALL_ROOT=/mnt/root bulge i dbus</code>
+</p>
+<p></p>
+</body>
+</html>
