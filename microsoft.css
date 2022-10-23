@@ -34,12 +34,12 @@ code {
 }
 
 .container-item {
-	flex: 1 1 40%;
+	flex: 1 1;
 	padding: 10px;
 }
 
-.lock-y {
-
+.product img {
+	height: 20vh;
 }
 
 .boxed {
@@ -93,6 +93,7 @@ code {
 	width: 100%;
 	float: left;
 	clear: left;
+	font-size: 2vh;
 }
 
 .yiffos-table {
