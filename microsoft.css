@@ -109,6 +109,16 @@ code {
 	width: 10%;
 }
 
+.checksums {
+	line-height: 0;
+}
+
+.single_checksum {
+	font-size: xx-small;
+	width: 20px;
+	word-break: break-all;
+}
+
 #footer {
 	text-align: center;
 	width: 100%;
