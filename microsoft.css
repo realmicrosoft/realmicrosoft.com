@@ -24,24 +24,6 @@ code {
 	border-radius: 3px;
 }
 
-.container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
-}
-
-.container-item {
-	flex: 1 1;
-	padding: 10px;
-}
-
-.product img {
-	height: 20vh;
-}
-
 .boxed {
 	width: 95%;
 	margin: 0 auto;
@@ -89,13 +71,6 @@ code {
 	height: 60vh;
 }
 
-.credit span {
-	width: 100%;
-	float: left;
-	clear: left;
-	font-size: 2vh;
-}
-
 .yiffos-table {
 	width: 100%;
 	text-align: center;
@@ -110,7 +85,6 @@ code {
 }
 
 .checksums {
-	line-height: 0;
 }
 
 .single_checksum {
