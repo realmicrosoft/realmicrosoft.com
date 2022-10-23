@@ -24,6 +24,24 @@ code {
 	border-radius: 3px;
 }
 
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+}
+
+.container-item {
+	flex: 1 1 40%;
+	padding: 10px;
+}
+
+.lock-y {
+
+}
+
 .boxed {
 	width: 95%;
 	margin: 0 auto;
@@ -59,7 +77,7 @@ code {
 }
 
 .credit {
-	width: 40vh;
+	width: 100%;
 	text-align: center;
 	font-size: smaller;
 	padding: 0.5em;
@@ -67,8 +85,14 @@ code {
 }
 
 .credit img {
-	float: right;
+	float: none;
 	height: 60vh;
+}
+
+.credit span {
+	width: 100%;
+	float: left;
+	clear: left;
 }
 
 .yiffos-table {
