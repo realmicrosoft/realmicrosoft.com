@@ -24,12 +24,15 @@ code {
 	border-radius: 3px;
 }
 
+ul {
+	list-style: none;
+}
+
 .container {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: center;
 	align-content: center;
 }
 
@@ -81,7 +84,10 @@ code {
 	text-align: center;
 	font-size: smaller;
 	padding: 0.5em;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	position: sticky;
+	top: 30px;
 }
 
 .credit img {
