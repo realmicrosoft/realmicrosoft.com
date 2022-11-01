@@ -24,6 +24,10 @@ code {
 	border-radius: 3px;
 }
 
+ul {
+	list-style: none;
+}
+
 .container {
 	display: flex;
 	flex-direction: row;
